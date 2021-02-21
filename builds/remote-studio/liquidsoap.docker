@@ -1,8 +1,0 @@
-from alpine:latest as repository
-run apk add --no-cache git
-run git clone https://github.com/WJRH-Engineering/remote-studio.git
-
-from savonet/liquidsoap:master as image
-copy --from=repository /remote-studio/liquidsoap /src
-copy ./secrets /secrets
-cmd ["/src/main.liq"]

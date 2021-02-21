@@ -1,3 +1,0 @@
-#!/usr/bin/bash
-
-docker build -t liq . && docker run --volume /home/connor/Music/Non-Album:/media/songs --volume /home/connor/Music/Non-Album:/media/station-ids liq
