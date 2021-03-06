@@ -1,0 +1,45 @@
+version: '3.0'
+services:
+
+  # initialize the state of each container or reset the state of the system,
+  # specificially the scheduler and redis containers. Built from information
+  # stored in the api.wjrh.org database
+  init:
+    image: "api.wjrh.org:5000/remote-studio/init"
+    depends_on: [scheduler, redis, icecast]
+    volumes:
+      - ./config.toml:/etc/config.toml
+
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
+
+  # the auth service is a nodejs/express web app responsible for authorizing
+  # publish requests to the rtmp server
+  auth:
+    image: "api.wjrh.org:5000/remote-studio/auth"
+    depends_on: [redis]
+  
+  # an nginx server with the rtmp module responsible for hosting rtmp streams
+  # from remote djs. It is also responsible for invoking ffmpeg whenever a
+  # stream is created to transcode into mp3 and publish to the icecast server
+  rtmp:
+    image: "api.wjrh.org:5000/remote-studio/rtmp"
+    ports:
+      - 1935:1935
+    depends_on: [auth, redis, icecast]
+
+  # the icecast server
+  icecast:
+    image: api.wjrh.org:5000/remote-studio/icecast:latest
+    ports:
+      - 8000:8000
+
+  scheduler:
+    image: api.wjrh.org:5000/remote-studio/scheduler:latest
+    environment: ['TZ=America/New_York']
+    command: ["/src/main.liq"]
+    ports:
+      - 1234:1234
+    depends_on: [icecast]
