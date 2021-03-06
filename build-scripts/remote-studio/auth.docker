@@ -1,0 +1,19 @@
+from alpine:latest as repository
+run apk add --no-cache git npm
+add "https://api.github.com/repos/WJRH-Engineering/remote-studio/commits?per_page=1" latest_commit
+run git clone https://github.com/WJRH-Engineering/remote-studio.git
+
+# install the javascript dependencies, doing this in this image avoids
+# installing npm in the final image
+workdir /remote-studio/auth
+run npm install
+
+from mhart/alpine-node:slim-14 as image
+workdir /src
+
+# copy source and javascript dependencies from repository image
+copy --from=repository /remote-studio/auth/node_modules /src/node_modules
+copy --from=repository /remote-studio/auth/main.js /src/main.js
+
+expose 8000
+cmd node main.js

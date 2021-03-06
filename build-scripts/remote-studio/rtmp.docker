@@ -1,0 +1,8 @@
+from alpine:latest as repository
+run apk add --no-cache git
+add "https://api.github.com/repos/WJRH-Engineering/remote-studio/commits?per_page=1" latest_commit
+run git clone https://github.com/WJRH-Engineering/remote-studio.git
+
+from alfg/nginx-rtmp as image
+copy --from=repository /remote-studio/nginx/nginx.conf /etc/nginx/nginx.conf.template
+

@@ -1,0 +1,24 @@
+from alpine:latest as repository
+run apk add --no-cache git
+add "https://api.github.com/repos/WJRH-Engineering/remote-studio/commits?per_page=1" latest_commit
+run git clone https://github.com/WJRH-Engineering/remote-studio.git
+
+from alpine:latest as image
+run apk add --no-cache icecast
+
+run adduser -D icecastd
+run mkdir -p /var/log/icecast/ && mkdir -p /etc/icecast
+
+copy --from=repository /remote-studio/icecast/icecast.xml /etc/icecast/icecast.xml
+copy --from=repository /remote-studio/icecast/web /etc/icecast/web
+copy --from=repository /remote-studio/icecast/admin /etc/icecast/admin
+
+run chown -R icecastd /var/log/icecast
+run chown -R icecastd /etc/icecast
+run chown -R icecastd /usr/share/icecast
+
+user icecastd
+
+expose 8000
+
+cmd icecast -c /etc/icecast/icecast.xml
