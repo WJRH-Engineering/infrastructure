@@ -13,7 +13,7 @@ services:
   redis:
     image: redis:latest
     ports:
-      - 6379:6379
+      - 127.0.0.1:6379:6379
 
   # the auth service is a nodejs/express web app responsible for authorizing
   # publish requests to the rtmp server
@@ -41,5 +41,5 @@ services:
     environment: ['TZ=America/New_York']
     command: ["/src/main.liq"]
     ports:
-      - 1234:1234
+      - 127.0.0.1:1234:1234
     depends_on: [icecast]

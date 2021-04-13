@@ -1,33 +1,25 @@
 # toml file for general configuration of the streaming server
 
 [schedule]
-year = 2020
-season = "FALL"
+year = 2021
+season = "SPRING"
 
 [database]
 hostname = "api.wjrh.org"
 port = 5432
-database = "testdb"
+database = "production"
 user = "wjrh"
 schedule_table = "schedule"
-auth_table = "mounts"
+auth_table = "mountpoints"
 
-# Add extra timeslots here
-
-[[timeslot]]
-shortname = "intergenerational-radio"
-time_range = "1w0h-7w24h"
+# Extra Timeslots
 
 [[timeslot]]
-shortname = "shock-me-like-an-electric-neil"
-time_range = "1w0h-7w24h"
+shortname = "sports-broadcasting"
+time_range = "0w0h-8w0h"
 
-[[timeslot]]
-shortname = "simps-for-dua-lipa-discussion-hour"
-time_range = "1w0h-7w24h"
-
-[liquidsoap]
-input_server = "icecast"
-input_port = 8000
-output_server = "api.wjrh.org"
-output_port = 8000
+[scheduler]
+"input.server" = "icecast"
+"input.port" = 8000
+"output.server" = "api.wjrh.org"
+"output.port" = 8000

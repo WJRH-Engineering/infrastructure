@@ -1,0 +1,18 @@
+#!/bin/bash
+
+host=api.wjrh.org
+host_user=wjrh
+data_volume=api_postgres-data
+port=5432
+
+function hostdo {
+	ssh $host_user@$host $@
+}
+
+hostdo docker run \
+	-p $port:5432 \
+	-v $data_volume:/var/lib/postgresql/data \
+	--name=database \
+	--rm \
+	-d \
+	postgres:12

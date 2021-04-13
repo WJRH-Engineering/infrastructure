@@ -19,4 +19,6 @@ $host_do mkdir -p deploy/remote-studio
 scp docker-compose.yml $host_user@$host_address:deploy/remote-studio/docker-compose.yml
 scp config.toml $host_user@$host_address:deploy/remote-studio/config.toml
 
+# pull new images from repository
+$host_do "cd deploy/remote-studio && docker-compose pull"
 $host_do "cd deploy/remote-studio && docker-compose up -d && docker-compose logs"

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Like build, but only builds one of the docker images at a time
+
+image=$1
+dockerfile=$image.docker
+
+repository=api.wjrh.org:5000
+ 
+docker build -t $repository/remote-studio/$image -f $dockerfile . &&
+docker push $repository/remote-studio/$image

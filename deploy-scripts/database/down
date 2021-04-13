@@ -1,0 +1,10 @@
+#!/bin/bash
+
+host=api.wjrh.org
+host_user=wjrh
+
+function hostdo {
+	ssh $host_user@$host $@
+}
+
+hostdo docker kill database

@@ -1,11 +1,11 @@
 -- schemas for tables in the production database, with explanations
 
--- schema for the remote_shows table
--- The auth table is used to store connection and authentication data for shows 
--- using the remote studio. It stores the show's shortname, icecast mountpoint,
+-- schema for the mountpoints table
+-- The mountpoints table is used to store connection and authentication data for shows 
+-- using remote studio. It stores the show's shortname, icecast mountpoint,
 -- and password. 
 
-create table remote_shows (
+create table mountpoints (
     id serial primary key,
     shortname text not null unique,
     password text,
