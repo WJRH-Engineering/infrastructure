@@ -6,9 +6,13 @@
 // This script will take a couple minutes to run. It is recommended
 // to run it as a cron-job scheduled once every couple of hours
 
+
+// 
+const redis_url = process.env.REDIS_URL
+
 const node_fetch = require('node-fetch')
 const ioredis = require('ioredis')
-const redis = new ioredis(6379, 'api.wjrh.org')
+const redis = new ioredis(6379, redis_url)
 
 
 // the main script, encapsulated in a function so we can make
