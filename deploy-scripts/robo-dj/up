@@ -1,0 +1,6 @@
+#!/bin/sh
+
+repository=api:5000
+image=robo-dj
+
+docker run -v /home/wjrh/audio-files/Airtime:/media/songs -v /home/wjrh/audio-files/'Station IDs':/media/station-ids  $repository/$image

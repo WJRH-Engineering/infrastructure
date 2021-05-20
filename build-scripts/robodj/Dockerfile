@@ -1,8 +1,14 @@
-FROM savonet/liquidsoap:master
+from alpine:latest as repository
+run apk add --no-cache git
+add "https://api.github.com/repos/WJRH-Engineering/robo-dj/commits?per_page=1" latest_commit
+run git clone --recurse-submodules https://github.com/WJRH-Engineering/robo-dj.git src
+workdir src
 
-# "copy source files
-COPY ./liquidsoap-utils/top_of_the_hour_detector.liq /src/utils/top_of_the_hour_detector.liq
-COPY ./main.liq /src/main.liq
-COPY ./passwords.liq /src/passwords.liq
+from savonet/liquidsoap:v1.4.4 as main
 
-CMD ["/src/main.liq"]
+# copy source files
+copy --from=repository src/main.liq main.liq
+copy --from=repository src/lib lib
+copy secrets/passwords.liq secrets/passwords.liq
+
+cmd ["main.liq"]

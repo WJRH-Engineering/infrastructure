@@ -1,0 +1,7 @@
+#!/bin/sh
+
+repository=api:5000
+image=robo-dj
+
+docker build -t $repository/$image . &&
+docker push $repository/$image
