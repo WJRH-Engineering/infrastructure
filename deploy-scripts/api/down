@@ -1,0 +1,11 @@
+#!/bin/bash
+
+image_repository=api.wjrh.org:5000
+image_directory=api
+host_address=api.wjrh.org
+host_user=wjrh
+
+# host_do will perform the command on the host machine over ssh
+host_do="ssh $host_user@$host_address"
+
+$host_do cd "deploy/api && docker-compose down && docker-compose logs"
