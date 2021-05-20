@@ -3,3 +3,5 @@
 private/*
 
 **/secrets/**
+
+**/node_modules/**

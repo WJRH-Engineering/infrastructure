@@ -1,18 +1,21 @@
 from rustlang/rust:nightly as builder
-arg ROCKET_VERSION
-arg ROCKET_VERSION=v0.4.0
 run rustup default nightly && rustup update
 
 # pull the wjrh website code from github
-run git clone 
-run mv wjrh build
+run git clone https://github.com/WJRH-Engineering/api.git
+workdir api
 
-workdir build
+copy ./private/build.env /api/.env
+
 run cargo build --release
 
 from debian:buster-slim as runtime
-copy --from=builder /build/target/release/website /usr/bin/app
-copy --from=builder /build/public /build/public
 
-expose 8000
-cmd ["/usr/bin/app"]
+# install curl libraries
+run apt-get update && apt-get install -y libcurl4-openssl-dev
+
+copy --from=builder /api/target/release/api-rust /usr/bin/api
+copy --from=builder /api/graphql-playground.html /graphql-playground.html
+
+expose 2000
+cmd ["/usr/bin/api"]

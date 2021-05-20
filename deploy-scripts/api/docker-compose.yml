@@ -1,0 +1,25 @@
+version: '3.0'
+services:
+
+  # the icecast server
+  redis:
+    image: redis:latest
+    ports:
+      - 127.0.0.1:6379:6379
+
+  clone-teal:
+    image: api.wjrh.org:5000/clone-teal:latest
+    depends_on: [redis] 
+    environment:
+      - REDIS_URL=redis
+
+  api:
+    image: api.wjrh.org:5000/api
+    depends_on: [redis]
+    ports:
+      - 80:2000
+    environment: 
+      - BIND_ADDRESS=0.0.0.0
+      - PORT=2000
+      - REDIS_URL=redis://redis:6379
+      - DATABASE_URL=postgres://wjrh:hogghall@api.wjrh.org:5432/production

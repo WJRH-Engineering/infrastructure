@@ -1,0 +1,12 @@
+#!/bin/bash
+
+repository=api.wjrh.org:5000
+image=api
+
+source ./private/build.env
+
+echo Compiling against database with URL: $DATABASE_URL
+
+# docker build -t $repository/$image --build-arg DATABASE_URL=${DATABASE_URL} . &&
+docker build -t $repository/$image . &&
+	docker push $repository/$image
