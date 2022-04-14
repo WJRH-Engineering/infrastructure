@@ -1,0 +1,14 @@
+version: '3.0'
+services:
+
+  # the icecast server
+  icecast:
+    image: api.wjrh.org:5000/icecast:latest
+    ports: ["8000:8000"]
+
+  controller:
+    image: api.wjrh.org:5000/broadcast-controller
+    environment: ['TZ=America/New_York']
+    command: ["/src/main.liq"]
+    depends_on: [icecast]
+    restart: always

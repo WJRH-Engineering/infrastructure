@@ -1,4 +1,4 @@
-FROM savonet/liquidsoap:master
+FROM docker.io/savonet/liquidsoap:main
 
 # "bake" an album into the image to use as a backup
 COPY ./secrets/a-groovy-thing /backup
