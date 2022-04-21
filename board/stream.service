@@ -1,0 +1,10 @@
+[Unit]
+Description=The ffmpeg process that streams audio from this computer to the icecast server
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/stream
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
