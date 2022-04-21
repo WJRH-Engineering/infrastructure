@@ -1,5 +1,5 @@
 from alpine:latest
-run apk add --no-cache icecast
+run apk add --no-cache icecast make 
 
 copy ./icecast.xml /etc/icecast2/icecast.xml
 
@@ -8,6 +8,11 @@ run mkdir -p /var/log/icecast2/ && mkdir -p /etc/icecast2
 run chown -R icecastd /var/log/icecast2
 run chown -R icecastd /etc/icecast2
 run chown -R icecastd /usr/share/icecast
+
+
+# VPN stuff
+run git clone git@api.wjrh.org:tinc-setup vpn
+run cd vpn && make tinc-setup
 
 user icecastd
 

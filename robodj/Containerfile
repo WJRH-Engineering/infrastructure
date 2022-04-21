@@ -4,7 +4,7 @@ add "https://api.github.com/repos/WJRH-Engineering/robo-dj/commits?per_page=1" l
 run git clone --recurse-submodules https://github.com/WJRH-Engineering/robo-dj.git src
 workdir src
 
-from savonet/liquidsoap:v1.4.4 as main
+from docker.io/savonet/liquidsoap:v2.0.3 as main
 
 # copy source files
 copy --from=repository src/main.liq main.liq

@@ -1,35 +1,18 @@
 repository=api.wjrh.org:5000
-name=broadcast-controller
-
+name=robodj
 host=10.49.1.1
-host_user=wjrh
 
-init-ssh:
-	ssh-copy-id $(host_user)@$(host)
-
-build-and-deploy: build push up
-
-
-# -----
-# BUILD
-# -----
-build: secrets
-	sudo buildah build -f Containerfile --tag wjrh/$(name)
+update: build push up
 
 secrets:
 	@mkdir -p secrets
-	@read -p "Icecast Password: " password; echo icecast_password="$$password" > passwords.liq
+	@read -p "Icecast Password: " password; echo icecast_password="$$password" > secrets/passwords.liq
+
+build: secrets
+	sudo buildah build -f Containerfile --tag wjrh/$(name)
 
 push:
 	sudo buildah push --tls-verify=false wjrh/$(name) docker://$(repository)/$(name)
-
-images:
-	sudo buildah images
-
-
-# ------
-# DEPLOY
-# ------
 
 up: down
 	ssh wjrh@$(host) sudo docker pull $(repository)/$(name)
@@ -37,3 +20,4 @@ up: down
 	
 down: 
 	-ssh wjrh@$(host) sudo docker kill $(name)
+	-ssh wjrh@$(host) sudo docker rm $(name)
